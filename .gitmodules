@@ -1,3 +1,3 @@
 [submodule "Clint_motors"]
-	path = Clint_motors
+	path = clint_motors
 	url = https://github.com/clintonkinoti62-creator/Clint_motors.git
