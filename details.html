@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Car Details</title>
+
+<style>
+body{
+  font-family:Arial;
+  background:#f4f4f4;
+  padding:15px;
+}
+img, video{
+  width:100%;
+  max-width:600px;
+  margin-bottom:10px;
+  border-radius:8px;
+}
+button{
+  padding:10px;
+  background:#ff6600;
+  color:white;
+  border:none;
+  margin:5px 0;
+  cursor:pointer;
+}
+</style>
+</head>
+
+<body>
+
+<button onclick="goBack()">⬅ Back</button>
+
+<h2 id="name"></h2>
+<img id="img">
+<p id="price"></p>
+
+<h3>Features</h3>
+<ul id="features"></ul>
+
+<h3>Video Preview</h3>
+<video id="video" controls></video>
+
+<button onclick="addToCart()">🛒 Add to Cart</button>
+
+<script>
+const car = JSON.parse(localStorage.getItem("selectedCar"));
+
+if(!car){
+  alert("No car selected");
+  window.location.href = "index.html";
+}
+
+document.getElementById("name").innerText = car.name;
+document.getElementById("price").innerText =
+  "KES " + car.price.toLocaleString();
+
+document.getElementById("img").src = car.img;
+document.getElementById("video").src = car.video;
+
+car.features.forEach(f=>{
+  document.getElementById("features").innerHTML += `<li>${f}</li>`;
+});
+
+function addToCart(){
+  let cart = JSON.parse(localStorage.getItem("cart")) || [];
+  cart.push(car);
+  localStorage.setItem("cart", JSON.stringify(cart));
+  alert("Car added to cart");
+}
+
+function goBack(){
+  window.history.back();
+}
+</script>
+
+</body>
+</html>

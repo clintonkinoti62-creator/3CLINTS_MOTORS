@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Clint motors | Branches</title>
+<style>
+body {margin:0;font-family:Arial,sans-serif;background:#f4f4f4;}
+nav {background:#111;color:white;padding:12px;display:flex;justify-content:space-between;align-items:center;}
+nav a {color:white;text-decoration:none;margin-left:15px;}
+nav button {background:#ff6600;color:white;border:none;padding:6px 12px;cursor:pointer;}
+h1{text-align:center;padding:15px;}
+.branch {background:white;margin:15px;padding:15px;border-radius:8px;box-shadow:0 0 6px rgba(0,0,0,0.2);}
+.branch h2{margin-top:0;}
+.branch p{margin:4px 0;}
+.branch-cars {display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px;margin-top:10px;}
+.car {background:#f9f9f9;padding:10px;border-radius:5px;box-shadow:0 0 4px rgba(0,0,0,0.1);}
+.car img{width:100%;height:140px;object-fit:cover;border-radius:5px;}
+.car video{width:100%;height:140px;object-fit:cover;margin:5px 0;border-radius:5px;}
+.car p{margin:5px 0;font-size:14px;}
+.car ul{padding-left:18px;font-size:13px;margin:5px 0;}
+.car button{width:100%;padding:6px;background:#ff6600;color:white;border:none;border-radius:4px;cursor:pointer;}
+</style>
+</head>
+<body>
+
+<nav>
+  <b>Clint motors</b>
+  <div>
+    <a href="index.html">Home</a>
+    <a href="cart.html">Cart</a>
+    <a href="admin.html">Admin</a>
+    <button onclick="logout()">Logout</button>
+  </div>
+</nav>
+
+<h1>Our Branches Across Kenya</h1>
+<div id="branches"></div>
+
+<script>
+
+const branches = [
+  {
+    name:"Nairobi Clint Sellers",
+    location:"Kilimani, Nairobi",
+    personnel:["John Mwangi","Alice Njeri"],
+    cars:[
+      {name:"Toyota Premio",price:1200000,img:"2p.jpeg",video:"2v.mp4",features:["1800cc Engine","Automatic","Petrol","ABS","Airbags"]},
+      {name:"Mazda CX-5",price:2800000,img:"1p.jpeg",video:"1v.mp4",features:["2200cc Engine","Diesel","AWD","Cruise Control","Sunroof"]},
+      {name:"Subaru Forester",price:2600000,img:"3p.jpeg",video:"3v.mp4",features:["2000cc Engine","AWD","Petrol","EyeSight","Hill Assist"]},
+      {name:"Toyota Harrier",price:3200000,img:"4p.jpeg",video:"4v.mp4",features:["2400cc Engine","Automatic","Leather Seats","ABS","Cruise Control"]},
+      {name:"Nissan X-Trail",price:2400000,img:"5p.jpeg",video:"5v.mp4",features:["2000cc Engine","AWD","Eco Mode","ABS","Airbags"]}
+    ]
+  },
+  {
+    name:"Mombasa Clint Sellers",
+    location:"Nyali, Mombasa",
+    personnel:["Samuel Otieno","Grace Wambui"],
+    cars:[
+      {name:"BMW X3",price:5200000,img:"6p.jpeg",video:"6v.mp4",features:["2000cc Turbo","Automatic","Leather","Sport Mode","ABS"]},
+      {name:"Mercedes C200",price:4500000,img:"7p.jpeg",video:"7v.mp4",features:["2000cc Engine","Luxury Interior","Automatic","ABS","Airbags"]},
+      {name:"Toyota Prado",price:6500000,img:"8p.jpeg",video:"8v.mp4",features:["2800cc Engine","4WD","Diesel","Leather","ABS"]},
+      {name:"Toyota Land Cruiser",price:8500000,img:"9p.jpeg",video:"9v.mp4",features:["4600cc Engine","4WD","Diesel","Off-road","Cruise"]},
+      {name:"Subaru XV",price:2300000,img:"10p.jpeg",video:"10v.mp4",features:["2000cc Engine","AWD","Eco Mode","Automatic","ABS"]}
+    ]
+  },
+  {
+    name:"Kisumu Clint Sellers",
+    location:"Milimani, Kisumu",
+    personnel:["Peter Oduor","Faith Achieng"],
+    cars:[
+      {name:"Mazda Demio",price:950000,img:"11p.jpeg",video:"11v.mp4",features:["1300cc Engine","Automatic","Petrol","ABS","Eco Mode"]},
+      {name:"Toyota Axio",price:980000,img:"12p.jpeg",video:"12v.mp4",features:["1500cc Engine","Hybrid","Automatic","Eco Mode","ABS"]},
+      {name:"Toyota Hilux",price:4200000,img:"13p.jpeg",video:"13v.mp4",features:["2400cc Engine","Diesel","4WD","Pickup","ABS","Off-road"]},
+      {name:"Isuzu D-Max",price:3900000,img:"14p.jpeg",video:"14v.mp4",features:["2500cc Engine","Diesel","4WD","Pickup","ABS","Torque Boost"]},
+      {name:"Nissan Note",price:900000,img:"15p.jpeg",video:"15v.mp4",features:["1200cc Engine","Automatic","Eco Mode","ABS","Airbags"]}
+    ]
+  }
+];
+
+
+const container = document.getElementById("branches");
+branches.forEach(branch=>{
+  let carsHtml = branch.cars.map(car=>`
+    <div class="car">
+      <img src="${car.img}" alt="${car.name}">
+      <p><b>${car.name}</b></p>
+      <p>KES ${car.price.toLocaleString()}</p>
+      <ul>${car.features.map(f=>`<li>${f}</li>`).join("")}</ul>
+      <video controls src="${car.video}"></video>
+      <button onclick="addToCart('${car.name}',${car.price},'${car.img}','${car.video}')">🛒 Add to Cart</button>
+    </div>
+  `).join("");
+  
+  container.innerHTML += `
+    <div class="branch">
+      <h2>${branch.name}</h2>
+      <p><b>Location:</b> ${branch.location}</p>
+      <p><b>Personnel:</b> ${branch.personnel.join(", ")}</p>
+      <div class="branch-cars">${carsHtml}</div>
+    </div>
+  `;
+});
+
+
+function addToCart(name,price,img,video){
+  let cart = JSON.parse(localStorage.getItem("cart")) || [];
+  if(cart.some(item => item.name === name)){
+    alert(name + " is already in the cart");
+    return;
+  }
+  cart.push({name,price,img,video});
+  localStorage.setItem("cart", JSON.stringify(cart));
+  alert(name + " added to cart");
+}
+
+function logout(){
+  localStorage.clear();
+  window.location="login.html";
+}
+</script>
+
+</body>
+</html>
